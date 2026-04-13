@@ -1,0 +1,95 @@
+<header>
+  <div class="header-title">KANBAN</div>
+</header>
+
+<div class="register-container">
+  <div class="register-box">
+    <h2>Create Account</h2>
+    <p>Join us and start organizing your work</p>
+
+    <form [formGroup]="registerForm" (ngSubmit)="handleRegister()">
+      <div class="form-group">
+        <label for="fullname">Full Name</label>
+        <input 
+          type="text" 
+          id="fullname" 
+          formControlName="fullname"
+          class="form-control"
+          [class.is-invalid]="submitted && f['fullname'].errors"
+          placeholder="Enter your full name">
+        <div *ngIf="submitted && f['fullname'].errors" class="error-message">
+          <div *ngIf="f['fullname'].errors['required']">Full name is required</div>
+          <div *ngIf="f['fullname'].errors['minlength']">Full name must be at least 2 characters</div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="email">Email Address</label>
+        <input 
+          type="email" 
+          id="email" 
+          formControlName="email"
+          class="form-control"
+          [class.is-invalid]="submitted && f['email'].errors"
+          placeholder="Enter your email">
+        <div *ngIf="submitted && f['email'].errors" class="error-message">
+          <div *ngIf="f['email'].errors['required']">Email is required</div>
+          <div *ngIf="f['email'].errors['email']">Please enter a valid email</div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input 
+          type="password" 
+          id="password" 
+          formControlName="password"
+          class="form-control"
+          [class.is-invalid]="submitted && f['password'].errors"
+          placeholder="Enter a password">
+        <div *ngIf="submitted && f['password'].errors" class="error-message">
+          <div *ngIf="f['password'].errors['required']">Password is required</div>
+          <div *ngIf="f['password'].errors['minlength']">Password must be at least 6 characters</div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="confirm-password">Confirm Password</label>
+        <input 
+          type="password" 
+          id="confirm-password" 
+          formControlName="confirmPassword"
+          class="form-control"
+          [class.is-invalid]="submitted && (f['confirmPassword'].errors || registerForm.errors?.['passwordMismatch'])"
+          placeholder="Confirm your password">
+        <div *ngIf="submitted && f['confirmPassword'].errors" class="error-message">
+          <div *ngIf="f['confirmPassword'].errors['required']">Please confirm your password</div>
+        </div>
+        <div *ngIf="submitted && registerForm.errors?.['passwordMismatch']" class="error-message">
+          Passwords do not match
+        </div>
+      </div>
+
+      <div class="form-options">
+        <label>
+          <input 
+            type="checkbox" 
+            formControlName="termsAccepted"
+            [class.is-invalid]="submitted && f['termsAccepted'].errors"> 
+          I agree to the Terms and Conditions
+        </label>
+      </div>
+
+      <div *ngIf="submitted && f['termsAccepted'].errors" class="error-message">
+        You must accept the Terms and Conditions
+      </div>
+
+      <button type="submit" class="btn btn-register-submit">Create Account</button>
+    </form>
+
+    <div class="form-footer">
+      <p>Already have an account? <a (click)="navigateToLogin()" class="link">Sign in</a></p>
+      <a (click)="goHome()" class="back-link">Back to Home</a>
+    </div>
+  </div>
+</div>

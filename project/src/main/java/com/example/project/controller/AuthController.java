@@ -1,0 +1,47 @@
+package com.example.project.controller;
+
+import com.example.project.service.AuthService;
+import com.example.project.dto.UserLoginRequest;
+import com.example.project.dto.UserRegisterRequest;
+import com.example.project.dto.AuthResponse;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+@RestController
+@RequestMapping("/api/auth")
+@CrossOrigin(origins = "*", maxAge = 3600)
+public class AuthController {
+
+    @Autowired
+    private AuthService authService;
+
+    /**
+     * Register a new user
+     * POST /api/auth/register
+     */
+    @PostMapping("/register")
+    public ResponseEntity<AuthResponse> register(@RequestBody UserRegisterRequest request){
+        AuthResponse response = authService.register(request);
+        if(response.isSuccess()){
+            return ResponseEntity.ok(response);
+        } else {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+        }
+    }
+
+    /**
+     * Login user
+     * POST /api/auth/login
+     */
+    @PostMapping("/login")
+    public ResponseEntity<AuthResponse> login(@RequestBody UserLoginRequest request){
+        AuthResponse response = authService.login(request);
+        if(response.isSuccess()){
+            return ResponseEntity.ok(response);
+        } else {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
+        }
+    }
+}
