@@ -4,14 +4,17 @@ import com.example.project.service.AuthService;
 import com.example.project.dto.UserLoginRequest;
 import com.example.project.dto.UserRegisterRequest;
 import com.example.project.dto.AuthResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import jakarta.servlet.http.HttpSession;
+
 @RestController
 @RequestMapping("/api/auth")
-@CrossOrigin(origins = "*", maxAge = 3600)
+@CrossOrigin(origins = "http://localhost:4200", allowCredentials = "true")
 public class AuthController {
 
     @Autowired
@@ -36,12 +39,19 @@ public class AuthController {
      * POST /api/auth/login
      */
     @PostMapping("/login")
-    public ResponseEntity<AuthResponse> login(@RequestBody UserLoginRequest request){
+    public ResponseEntity<AuthResponse> login(@RequestBody UserLoginRequest request, HttpSession session){
         AuthResponse response = authService.login(request);
         if(response.isSuccess()){
+            session.setAttribute("user", response.getUser());
             return ResponseEntity.ok(response);
         } else {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
         }
+    }
+
+    @PostMapping("/logout")
+    public ResponseEntity<String> logout(HttpSession session){
+        session.invalidate(); // destroys session
+        return ResponseEntity.ok("Logged out successfully");
     }
 }
