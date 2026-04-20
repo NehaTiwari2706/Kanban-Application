@@ -131,6 +131,16 @@ form {
 .form-options input[type="checkbox"].is-invalid {
   border-color: #dc3545;
 }
+::ng-deep .custom-tooltip {
+  font-size: 12px;   /* text size */
+  padding: 10px;     /* spacing */
+  max-width: 300px;  /* control width */
+}
+
+::ng-deep .p-tooltip .p-tooltip-text {
+  padding: 12px 16px;   /* top/bottom 12px, left/right 16px */
+  /* font-size: 16px;      optional: adjust text size */
+}
 
 .btn {
   width: 100%;

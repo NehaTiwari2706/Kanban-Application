@@ -1,0 +1,84 @@
+# 🌐 Angular / Node
+
+node_modules/
+dist/
+build/
+.tmp/
+.out/
+.angular/
+.cache/
+
+# Angular environment files
+src/environments/environment*.ts
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# ☕ Spring Boot / Java
+target/
+build/
+*.class
+*.jar
+*.war
+*.ear
+
+# Logs
+*.log
+logs/
+
+# ⚙️ IDE / Editor
+# VS Code
+.vscode/
+
+# IntelliJ / Android Studio
+.idea/
+*.iml
+
+# Eclipse
+.project
+.classpath
+.settings/
+
+# 💻 OS Files
+.DS_Store
+Thumbs.db
+
+# 🔐 Environment / Secrets
+.env
+.env.*
+application.properties
+application.yml
+application-*.yml
+application-*.properties
+
+# But allow example configs
+!application-example.yml
+!application-example.properties
+
+# 🗄️ Database
+
+*.db
+*.sqlite
+*.sqlite3
+
+*.sql
+!db/
+!db/*.sql
+
+# 📦 Misc
+
+coverage/
+*.tgz
+*.zip
+*.tar.gz
+
+# 🚀 Build Outputs
+/out/
+/bin/
+
+# 🧪 Test
+
+/test-output/
+/reports/

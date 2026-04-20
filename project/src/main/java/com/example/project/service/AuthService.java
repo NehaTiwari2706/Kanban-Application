@@ -33,6 +33,9 @@ public class AuthService {
         if(!request.getPassword().equals(request.getConfirmPassword())){
             return new AuthResponse(false, "Passwords do not match");
         }
+        if(request.getDomain() == null || request.getDomain().trim().isEmpty()){
+            return new AuthResponse(false, "Domain is required");
+        }
          // Check if email already exists
         if (userRepository.existsByEmail(request.getEmail())) {
             return new AuthResponse(false, "Email already registered");
@@ -44,6 +47,7 @@ public class AuthService {
             user.setEmail(request.getEmail());
             //Encrpt password using BCrypt
             user.setPasswordHash(passwordEncoder.encode(request.getPassword()));
+            user.setDomain(request.getDomain());
 
             //save user to database
             User savedUser = userRepository.save(user);
@@ -53,7 +57,8 @@ public class AuthService {
                 savedUser.getId(),
                 savedUser.getFullName(),
                 savedUser.getEmail(),
-                savedUser.getCreatedAt()
+                savedUser.getCreatedAt(),
+                savedUser.getDomain()
             );
             return new AuthResponse(true, "User registered successfully", userDTO);
         } catch (Exception e) {
@@ -86,7 +91,8 @@ public class AuthService {
                 user.getId(),
                 user.getFullName(),
                 user.getEmail(),
-                user.getCreatedAt()
+                user.getCreatedAt(),
+                user.getDomain()
             );
             return new AuthResponse(true, "Login successful", userDTO);
         } catch (Exception e) {

@@ -24,10 +24,11 @@ export class RegisterComponent implements OnInit {
 
   initializeForm(): void {
     this.registerForm = this.formBuilder.group({
-      fullname: ['', [Validators.required, Validators.minLength(2)]],
+      fullName: ['', [Validators.required, Validators.minLength(2)]],
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]],
       confirmPassword: ['', Validators.required],
+      domain: ['', Validators.required],
       termsAccepted: [false, Validators.requiredTrue]
     }, { validators: this.passwordMatchValidator });
   }
@@ -53,9 +54,9 @@ export class RegisterComponent implements OnInit {
       return;
     }
 
-    const { fullname, email, password, confirmPassword, termsAccepted } = this.registerForm.value;
+    const { fullName, email, password, confirmPassword, domain, termsAccepted } = this.registerForm.value;
 
-    if (!fullname || !email || !password || !confirmPassword) {
+    if (!fullName || !email || !password || !confirmPassword || !domain) {
       alert('Please fill in all fields');
       return;
     }
@@ -64,6 +65,7 @@ export class RegisterComponent implements OnInit {
       alert('Please enter a valid email');
       return;
     }
+
 
     if (password.length < 6) {
       alert('Password must be at least 6 characters long');
@@ -80,12 +82,15 @@ export class RegisterComponent implements OnInit {
       return;
     }
 
+    console.log(this.registerForm.value);
+
     // call backend API
     this.authService.register({
-      fullName: fullname,
+      fullName: fullName,
       email: email,
       password: password,
-      confirmPassword: confirmPassword
+      confirmPassword: confirmPassword,
+      domain: domain
     }).subscribe({
       next: (response) => {
         if (response.success) {

@@ -9,6 +9,7 @@ import { AppComponent } from './app.component';
 import { HomeComponent } from './app/HomePage/home.component';
 import { LoginComponent } from './app/LoginPage/login.component';
 import { RegisterComponent } from './app/RegisterPage/register.component';
+import { TooltipModule } from 'primeng/tooltip';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,8 @@ import { RegisterComponent } from './app/RegisterPage/register.component';
     ReactiveFormsModule,
     FormsModule,
     HttpClientModule,
-    AppRoutingModule
+    AppRoutingModule,
+    TooltipModule
   ],
   providers: [],
   bootstrap: [AppComponent]

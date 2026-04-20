@@ -7,14 +7,16 @@ public class UserDTO{
     private String fullName;
     private String email;
     private LocalDateTime createdAt;
+    private String domain;
 
     public UserDTO() {}
 
-    public UserDTO(Long id, String fullName, String email, LocalDateTime createdAt) {
+    public UserDTO(Long id, String fullName, String email, LocalDateTime createdAt, String domain) {
         this.id = id;
         this.fullName = fullName;
         this.email = email;
         this.createdAt = createdAt;
+        this.domain = domain;
     }
 
     public Long getId() { return id; }
@@ -28,4 +30,7 @@ public class UserDTO{
     
     public LocalDateTime getCreatedAt() { return createdAt; }
     public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
+
+    public String getDomain() { return domain; }
+    public void setDomain(String domain) { this.domain = domain; }
 }

@@ -70,6 +70,28 @@
         </div>
       </div>
 
+      <div class="form-group">
+        <label for="domain">Domain
+          <i class="pi pi-info-circle" 
+            pTooltip="Domain can be Frontend/Backend/BA/QA etc" 
+            tooltipStyleClass="custom-tooltip"
+            tooltipPosition="right" 
+            style="cursor:pointer; font-size:11px;">
+          </i>
+        </label>
+        <input 
+          type="text" 
+          id="domain" 
+          formControlName="domain"
+          class="form-control"
+          [class.is-invalid]="submitted && f['domain'].errors"
+          placeholder="Enter your domain">
+        <div *ngIf="submitted && f['domain'].errors" class="error-message">
+          <div *ngIf="f['domain'].errors['required']">Domain is required</div>
+          <div *ngIf="f['domain'].errors['minlength']">Domain must be at least 2 characters</div>
+        </div>
+      </div>
+
       <div class="form-options">
         <label>
           <input 
