@@ -25,6 +25,9 @@ public class Team {
     @OneToMany(mappedBy = "team", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<TeamMembers> members;
 
+    @OneToMany(mappedBy = "team")
+    private List<UserStory> userStories;
+
     // Constructors
     public Team() {}
 

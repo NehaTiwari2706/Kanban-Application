@@ -1,6 +1,6 @@
 package com.example.project.entity;
 import java.time.LocalDateTime;
-
+import java.util.List;
 import jakarta.persistence.*;
 
 @Entity
@@ -32,6 +32,10 @@ public class Iteration {
 
     @Column(name = "created_at")
     private LocalDateTime createdAt;
+
+    @OneToMany(mappedBy = "iteration")
+    private List<UserStory> userStories;
+
 
     // Constructors
     public Iteration() {}
@@ -102,5 +106,5 @@ public class Iteration {
     public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
     }
-    
+
 }
