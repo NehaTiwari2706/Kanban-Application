@@ -35,6 +35,10 @@ public class User {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<UserRole> userRoles;
 
+    // reverse mapping
+    @OneToMany(mappedBy = "createdBy")
+    private List<Team> teams;
+
     @PrePersist
     protected void onCreate() {
         createdAt = LocalDateTime.now();
@@ -66,4 +70,7 @@ public class User {
 
     public List<UserRole> getUserRoles() { return userRoles; }
     public void setUserRoles(List<UserRole> userRoles) { this.userRoles = userRoles; }
+
+    public List<Team> getTeams() { return teams; }
+    public void setTeams(List<Team> teams) { this.teams = teams; }
 }
