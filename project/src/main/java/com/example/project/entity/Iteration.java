@@ -107,4 +107,11 @@ public class Iteration {
         this.createdAt = createdAt;
     }
 
+    public List<UserStory> getUserStories() {
+        return userStories;
+    }
+    public void setUserStories(List<UserStory> userStories) {
+        this.userStories = userStories;
+    }
+
 }
