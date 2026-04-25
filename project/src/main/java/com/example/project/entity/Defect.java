@@ -1,7 +1,19 @@
 package com.example.project.entity;
 
 import java.time.LocalDateTime;
-import jakarta.persistence.*;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Index;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
 
 @Entity
 @Table(name = "defect", uniqueConstraints= @UniqueConstraint(columnNames = { "user_story_id", "iteration_id"}), indexes = {
@@ -33,10 +45,10 @@ public class Defect {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "priority", nullable = false)
-    private Priority priority;@Column(name = "assigned_to", nullable = false)
-
+    private Priority priority;
+    
     @ManyToOne
-    @JoinColumn(name = "assigned_to")
+    @JoinColumn(name = "assigned_to", nullable = false)
     private User assignedTo;
 
     @ManyToOne

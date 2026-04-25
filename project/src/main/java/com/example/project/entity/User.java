@@ -22,7 +22,7 @@ public class User {
     @Column(name = "password_hash", nullable = false)
     private String passwordHash;
 
-    @Column(name = "domain")
+    @Column(name = "domain", nullable = false)
     private String domain;
 
     @Column(name = "created_at", updatable = false)

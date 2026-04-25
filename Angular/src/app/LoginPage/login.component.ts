@@ -50,6 +50,7 @@ export class LoginComponent implements OnInit {
       next: (response: any) => {
         if (response.success) {
           alert('Login successful!');
+          this.router.navigate(['/kanban']);
         } else {
           alert('Login failed: ' + response.message);
         }
@@ -58,7 +59,6 @@ export class LoginComponent implements OnInit {
         alert('An error occurred during login: ' + error.message);
       }
     });
-    this.router.navigate(['/kanban']);
 }
 
   goHome(): void {
