@@ -41,8 +41,11 @@
         @PostMapping("/login")
         public ResponseEntity<AuthResponse> login(@RequestBody UserLoginRequest request, HttpSession session){
             AuthResponse response = authService.login(request);
+            System.out.println("Session ID: " + session.getId());
+            System.out.println("User: " + session.getAttribute("user"));    
             if(response.isSuccess()){
                 session.setAttribute("user", response.getUser());
+                session.setAttribute("userId", response.getUser().getId());
                 return ResponseEntity.ok(response);
             } else {
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);

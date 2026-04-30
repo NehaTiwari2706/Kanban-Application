@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 import com.example.project.entity.Team;
 import com.example.project.entity.User;
 import com.example.project.repository.TeamRepository;
-import com.example.project.dto.TeamDTO;
+import com.example.project.repository.UserRepository;
 
 @Service
 public class TeamService {
@@ -14,21 +14,46 @@ public class TeamService {
     @Autowired
     private TeamRepository teamRepository;
 
-    public String createTeam(String name, User user) {
+    @Autowired
+    private UserRepository userRepository;
 
-        // Check if team name already exists
+    public String createTeam(String name, Long userId) {
+
+        if (userId == null) {
+            throw new RuntimeException("User not logged in");
+        }
+
+        // Fetch fresh user from DB
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
         if (teamRepository.existsByName(name)) {
             return "Team name already exists";
         }
 
-        // Create and save the new team
         Team team = new Team();
         team.setName(name);
         team.setCreatedAt(java.time.LocalDateTime.now());
-        team.setCreatedBy(user);
+        team.setCreatedBy(user); // managed entity
 
         teamRepository.save(team);
 
         return "Team created successfully";
+    }
+
+    public Object getAllTeams() {
+        return teamRepository.findAll();
+    }
+
+    public Object getTeamById(Long id) {
+        return teamRepository.findById(id).orElse(null);
+    }
+
+    public String deleteTeam(Long id) {
+        if (!teamRepository.existsById(id)) {
+            return "Team not found";
+        }
+        teamRepository.deleteById(id);
+        return "Team deleted successfully";
     }
 }
