@@ -1,7 +1,9 @@
 package com.example.project.entity;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import jakarta.persistence.*;
+
 
 @Entity
 @Table(name = "iteration")
@@ -18,13 +20,19 @@ public class Iteration {
     private String name;
 
     @Column(name = "start_date", nullable= false)
-    private String startDate;
+    private LocalDate  startDate;
 
     @Column(name = "end_date", nullable= false)
-    private String endDate;
+    private LocalDate  endDate;
 
+    public enum Status {
+        PLANNED,
+        ACTIVE,
+        COMPLETED
+    }
+    @Enumerated(EnumType.STRING)
     @Column(name = "status", nullable = false)
-    private String status;
+    private Status status = Status.PLANNED; // default
 
     @ManyToOne
     @JoinColumn(name = "team_id", referencedColumnName = "id")
@@ -36,18 +44,21 @@ public class Iteration {
     @OneToMany(mappedBy = "iteration")
     private List<UserStory> userStories;
 
+    @PrePersist
+    public void prePersist() {
+        this.createdAt = LocalDateTime.now();
+    }
 
     // Constructors
     public Iteration() {}
 
-    public Iteration(int iterationNumber, String name, String startDate, String endDate, String status, Team team, LocalDateTime createdAt) {
+    public Iteration(int iterationNumber, String name, LocalDate startDate, LocalDate endDate, Status status, Team team) {
         this.iterationNumber = iterationNumber;
         this.name = name;
         this.startDate = startDate;
         this.endDate = endDate;
         this.status = status;
         this.team = team;
-        this.createdAt = createdAt;
     }
 
     // Getters and setters
@@ -72,24 +83,24 @@ public class Iteration {
         this.name = name;
     }
 
-    public String getStartDate() {
+    public LocalDate getStartDate() {
         return startDate;
     }
-    public void setStartDate(String startDate) {
+    public void setStartDate(LocalDate startDate) {
         this.startDate = startDate;
     }
 
-    public String getEndDate() {
+    public LocalDate getEndDate() {
         return endDate;
     }
-    public void setEndDate(String endDate) {
+    public void setEndDate(LocalDate endDate) {
         this.endDate = endDate;
     }
 
-    public String getStatus() {
+    public Status getStatus() {
         return status;
     }
-    public void setStatus(String status) {
+    public void setStatus(Status status) {
         this.status = status;
     }
 
