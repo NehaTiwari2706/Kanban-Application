@@ -1,5 +1,7 @@
 package com.example.project.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -56,5 +58,36 @@ public class IterationService {
         iterationRepository.save(iteration);
 
         return "Iteration created successfully";
+    }
+
+    public String deleteIteration(Long id){
+
+        if(!iterationRepository.existsById(id)){
+            return "Iteration not found";
+        }
+        iterationRepository.deleteById(id);
+        return "Iteration deleted successfully";
+    }
+
+    public  List<IterationDTO> getIterationByTeam(Long teamId){
+        List<Iteration> iterations = iterationRepository.findByTeamId(teamId);
+
+        return iterations.stream()
+                .map(this::convertToDTO)
+                .toList();
+    }
+
+    // ENTITY → DTO mapper (VERY IMPORTANT)
+    private IterationDTO convertToDTO(Iteration i) {
+        return new IterationDTO(
+                i.getId(),
+                String.valueOf(i.getIterationNumber()),
+                i.getName(),
+                i.getStartDate(),
+                i.getEndDate(),
+                i.getStatus().name(),
+                i.getTeam().getId(),
+                null
+        );
     }
 }
