@@ -90,4 +90,48 @@ public class IterationService {
                 null
         );
     }
+
+    public String updateIteration(Long id, IterationDTO dto ){
+
+        Iteration iteration = iterationRepository.findById(id)
+            .orElseThrow(() -> new RuntimeException("Iteration not found"));
+
+        if (dto.getStartDate() == null || dto.getEndDate() == null) {
+            throw new RuntimeException("Start date and End date are required");
+        }
+
+        if (dto.getStartDate().isAfter(dto.getEndDate())) {
+            throw new RuntimeException("Start date must be before end date");
+        }
+
+        iteration.setName(dto.getName());
+        iteration.setStartDate(dto.getStartDate());
+        iteration.setEndDate(dto.getEndDate());
+
+        if(dto.getStatus() != null){
+            try{
+                iteration.setStatus(Iteration.Status.valueOf(dto.getStatus().toUpperCase()));
+            }
+            catch (Exception e){
+                throw new RuntimeException("Invalid status. Use PLANNED, ACTIVE, COMPLETED");
+            }
+        }
+
+        if (dto.getTeamId() != null && 
+            !dto.getTeamId().equals(iteration.getTeam().getId())) {
+
+            Team newTeam = teamRepository.findById(dto.getTeamId())
+                    .orElseThrow(() -> new RuntimeException("Team not found"));
+
+            // Recalculate iteration number for new team
+            int maxIteration = iterationRepository
+                    .findMaxIterationNumberByTeamId(dto.getTeamId());
+
+            iteration.setIterationNumber(maxIteration + 1);
+            iteration.setTeam(newTeam);
+        }
+
+        iterationRepository.save(iteration);
+        return "Iteration updated successfully";
+    }
 }

@@ -10,11 +10,11 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
 import com.example.project.dto.IterationDTO;
 import com.example.project.service.IterationService;
 
@@ -48,5 +48,16 @@ public class IterationController {
     @GetMapping
     public ResponseEntity<List<IterationDTO>> getIterationByTeam(@RequestParam Long teamId){
          return ResponseEntity.ok(IterationService.getIterationByTeam(teamId));
+    }
+
+    @PutMapping("{id}")
+    public ResponseEntity<?> updateIteration(@PathVariable Long id, @RequestBody IterationDTO dto){
+
+        try{
+            String response = IterationService.updateIteration(id, dto);
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 }
