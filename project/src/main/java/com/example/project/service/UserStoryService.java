@@ -19,6 +19,11 @@ import com.example.project.repository.UserStoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
+import com.example.project.dto.UsDTO;
+
 @Service
 public class UserStoryService {
 
@@ -104,5 +109,37 @@ public class UserStoryService {
         }
 
         throw new RuntimeException("Unexpected error occurred");
+    }
+
+    public List<UsDTO> getAllUserStoriesByIterationID(Long iterationId) {
+         List<UserStory> userStories = userStoryRepository.findByIterationId(iterationId);
+         return userStories.stream()
+                    .map(this::convertToDTO)
+                    .collect(Collectors.toList());
+    }
+
+    // ENTITY → DTO mapper
+    private UsDTO convertToDTO(UserStory us) {
+        return new UsDTO(
+                us.getTitle(),
+                us.getDescription(),
+                us.getAcceptanceCriteria(),
+                us.getStatus().name(),
+                us.getPriority().name(),
+                us.getCreatedBy().getId(),
+                us.getAssignedTo().getId(),
+                us.getIteration().getId(),
+                us.getTeam().getId(),
+                us.getEstimatedTime(),
+                us.getActualTime()
+        );
+    }
+
+    public String deleteUserStory(Long userStoryId) {
+        if (!userStoryRepository.existsById(userStoryId)) {
+            return "User story not found";
+        }
+        userStoryRepository.deleteById(userStoryId);
+        return "User story deleted successfully";
     }
 }

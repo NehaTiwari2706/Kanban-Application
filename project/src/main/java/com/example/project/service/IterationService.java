@@ -77,7 +77,7 @@ public class IterationService {
                 .toList();
     }
 
-    // ENTITY → DTO mapper (VERY IMPORTANT)
+    // ENTITY → DTO mapper 
     private IterationDTO convertToDTO(Iteration i) {
         return new IterationDTO(
                 i.getId(),
