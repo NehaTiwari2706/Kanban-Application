@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import java.util.List;
+import org.springframework.web.bind.annotation.PutMapping;
 
 
 @RestController 
@@ -42,6 +43,11 @@ public class UserStoryController {
     @DeleteMapping("{id}")
     public ResponseEntity<String> deleteUserStory(@PathVariable Long id) {
         return ResponseEntity.ok(userStoryService.deleteUserStory(id));
+    }
+
+    @PutMapping("{id}")
+    public ResponseEntity<String> updateUserStory(@PathVariable Long id, @RequestBody UsDTO dto) {
+        return ResponseEntity.ok(userStoryService.updateUserStory(id, dto));
     }
 
 }

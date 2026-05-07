@@ -142,4 +142,49 @@ public class UserStoryService {
         userStoryRepository.deleteById(userStoryId);
         return "User story deleted successfully";
     }
+
+
+    public String updateUserStory(Long id, UsDTO dto) {
+        UserStory userStory = userStoryRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("User story not found"));
+
+        // Update fields
+        userStory.setTitle(dto.getTitle());
+        userStory.setDescription(dto.getDescription());
+        userStory.setAcceptanceCriteria(dto.getAcceptanceCriteria());
+
+        try {
+            userStory.setStatus(Status.valueOf(dto.getStatus().toUpperCase()));
+        } catch (Exception e) {
+            throw new RuntimeException("Invalid status. Use TODO, IN_PROGRESS, DONE");
+        }
+
+        try {
+            userStory.setPriority(Priority.valueOf(dto.getPriority().toUpperCase()));
+        } catch (Exception e) {
+            throw new RuntimeException("Invalid priority. Use LOW, MEDIUM, HIGH, CRITICAL");
+        }
+
+        User assignedTo = userRepository.findById(dto.getAssignedTo())
+                .orElseThrow(() -> new RuntimeException("Assigned user not found"));
+        userStory.setAssignedTo(assignedTo);
+
+        if( dto.getIterationId() != null && !dto.getIterationId().equals(userStory.getIteration().getId())){
+            
+            Iteration newIteration = iterationRepository.findById(dto.getIterationId())
+                    .orElseThrow(() -> new RuntimeException("Iteration not found"));
+
+            //recalculate user story number for new iteration
+            int maxUS = userStoryRepository.findMaxUserStoryNumberByIterationId(dto.getIterationId());
+
+            userStory.setUserStoryNumber(maxUS + 1);
+            userStory.setIteration(newIteration);
+        }
+
+        userStory.setEstimatedTime(dto.getEstimatedTime());
+        userStory.setActualTime(dto.getActualTime());
+
+        userStoryRepository.save(userStory);
+        return "User story updated successfully";
+    }
 }
