@@ -15,7 +15,6 @@ import com.example.project.repository.UserRepository;
 import com.example.project.repository.UserStoryRepository;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
 
 @Service
 public class DefectService {
@@ -144,5 +143,55 @@ public class DefectService {
         dto.setUpdatedAt(defect.getUpdatedAt());
 
         return dto;
+    }
+
+    public String updateDefects(Long id, DefectDTO dto){
+
+        Defect defect = defectRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Defect not found"));
+
+        // Update editable fields
+        defect.setTitle(dto.getTitle());
+        defect.setDescription(dto.getDescription());
+
+        // Status
+        try {
+            defect.setStatus(
+                    Status.valueOf(dto.getStatus().toUpperCase()));
+        } catch (Exception e) {
+            throw new RuntimeException(
+                    "Invalid status. Use OPEN, IN_PROGRESS, RESOLVED, CLOSED");
+        }
+
+        // Priority
+        try {
+            defect.setPriority(
+                    Priority.valueOf(dto.getPriority().toUpperCase()));
+        } catch (Exception e) {
+            throw new RuntimeException(
+                    "Invalid priority. Use LOW, MEDIUM, HIGH, CRITICAL");
+        }
+
+        // Assigned user
+        User assignedTo = userRepository.findById(dto.getAssignedToId())
+                .orElseThrow(() -> new RuntimeException("Assigned user not found"));
+
+        defect.setAssignedTo(assignedTo);
+
+        defect.setEstimatedTime(dto.getEstimatedTime());
+        defect.setActualTime(dto.getActualTime());
+
+        defectRepository.save(defect);
+
+        return "Defect updated successfully";
+    }
+
+    public String deleteUserStory(Long id){
+
+        if(!defectRepository.existsById(id)){
+            return "Defect not found";
+        }
+        defectRepository.deleteById(id);
+        return "Defect Deleted Successfully";
     }
 }

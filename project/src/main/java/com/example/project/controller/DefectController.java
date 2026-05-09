@@ -34,5 +34,13 @@ public class DefectController {
                 defectService.getDefects(iterationId, userStoryId));
     }
 
+    @PutMapping("{id}")
+    public ResponseEntity<String> updateDefects(@PathVariable Long id, @RequestBody DefectDTO dto){
+        return ResponseEntity.ok(defectService.updateDefects(id, dto));
+    }
     
+    @DeleteMapping("{id}")
+    public ResponseEntity<String> deleteDefect(@PathVariable Long id) {
+        return ResponseEntity.ok(defectService.deleteUserStory(id));
+    }
 }
