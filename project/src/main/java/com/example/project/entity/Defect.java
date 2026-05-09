@@ -13,10 +13,10 @@ import jakarta.persistence.Index;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
-import jakarta.persistence.UniqueConstraint;
+
 
 @Entity
-@Table(name = "defect", uniqueConstraints= @UniqueConstraint(columnNames = { "user_story_id", "iteration_id"}), indexes = {
+@Table(name = "defect", indexes = {
     @Index(name = "idx_defect_iteration", columnList = "iteration_id"),
     @Index(name = "idx_defect_user_story", columnList = "user_story_id"),
 })
@@ -56,11 +56,11 @@ public class Defect {
     private User createdBy;
 
     @ManyToOne
-    @JoinColumn(name = "user_story_id", nullable= false)
+    @JoinColumn(name = "user_story_id")
     private UserStory userStory;
 
     @ManyToOne
-    @JoinColumn(name = "iteration_id", nullable = false)
+    @JoinColumn(name = "iteration_id")
     private Iteration iteration;
 
     @Column(name = "estimated_time", nullable = false)

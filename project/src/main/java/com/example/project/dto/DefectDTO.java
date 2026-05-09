@@ -18,7 +18,7 @@ public class DefectDTO {
 
     private Long createdById;
 
-    // Defect can belong to Story OR Iteration
+    // Defect can belong to User Story OR Iteration
     private Long userStoryId;
 
     private Long iterationId;
