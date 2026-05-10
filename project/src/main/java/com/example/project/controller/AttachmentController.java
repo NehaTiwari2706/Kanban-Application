@@ -1,24 +1,137 @@
 package com.example.project.controller;
 
-import org.springframework.web.bind.annotation.*;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.multipart.MultipartFile;
+import com.example.project.service.AttachmentService;
+import jakarta.servlet.http.HttpSession;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 @RestController
-@RequestMapping("/api/attachment")
+@RequestMapping("/api/attachments")
 @CrossOrigin(origins = "http://localhost:4200", allowCredentials = "true")
 public class AttachmentController {
 
-    @PostMapping("/upload")
-    public ResponseEntity<String> uploadFile(@RequestParam("file") MultipartFile file){
+    @Autowired
+    private AttachmentService attachmentService;
 
-        //validation
-        if(file.isEmpty()){
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Request must contain file");
+    // ==============================
+    // Upload Attachment for Defect
+    // ==============================
+    @PostMapping("/defects/{id}")
+    public ResponseEntity<String> uploadDefectAttachment(
+            @PathVariable Long id,
+            @RequestParam("file") MultipartFile file,
+            HttpSession session) {
+
+        try {
+
+            Long userId = (Long) session.getAttribute("userId");
+
+            if (userId == null) {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                        .body("User not logged in");
+            }
+
+            validateFile(file);
+
+            return ResponseEntity.ok(
+                    attachmentService.uploadDefectAttachment(
+                            id,
+                            file,
+                            userId
+                    )
+            );
+
+        } catch (Exception e) {
+
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(e.getMessage());
+        }
+    }
+
+    // ==============================
+    // Upload Attachment for Task
+    // ==============================
+    @PostMapping("/tasks/{id}")
+    public ResponseEntity<String> uploadTaskAttachment(
+            @PathVariable Long id,
+            @RequestParam("file") MultipartFile file,
+            HttpSession session) {
+
+        try {
+
+            Long userId = (Long) session.getAttribute("userId");
+
+            if (userId == null) {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                        .body("User not logged in");
+            }
+
+            validateFile(file);
+
+            return ResponseEntity.ok(
+                    attachmentService.uploadTaskAttachment(
+                            id,
+                            file,
+                            userId
+                    )
+            );
+
+        } catch (Exception e) {
+
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(e.getMessage());
+        }
+    }
+
+    // ====================================
+    // Upload Attachment for User Story
+    // ====================================
+    @PostMapping("/user-stories/{id}")
+    public ResponseEntity<String> uploadUserStoryAttachment(
+            @PathVariable Long id,
+            @RequestParam("file") MultipartFile file,
+            HttpSession session) {
+
+        try {
+
+            Long userId = (Long) session.getAttribute("userId");
+
+            if (userId == null) {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                        .body("User not logged in");
+            }
+
+            validateFile(file);
+
+            return ResponseEntity.ok(
+                    attachmentService.uploadUserStoryAttachment(
+                            id,
+                            file,
+                            userId
+                    )
+            );
+
+        } catch (Exception e) {
+
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(e.getMessage());
+        }
+    }
+
+    // ==============================
+    // Common File Validation
+    // ==============================
+    private void validateFile(MultipartFile file) {
+
+        if (file.isEmpty()) {
+            throw new RuntimeException("Request must contain file");
         }
 
-        
-        return ResponseEntity.ok("working");
+        if (!file.getContentType().equals("image/png")) {
+            throw new RuntimeException("Only PNG files are allowed");
+        }
     }
 }
