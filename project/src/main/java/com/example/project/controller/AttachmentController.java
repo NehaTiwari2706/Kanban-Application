@@ -147,8 +147,26 @@ public class AttachmentController {
             throw new RuntimeException("Request must contain file");
         }
 
-        if (!file.getContentType().equals("image/png")) {
-            throw new RuntimeException("Only PNG files are allowed");
+        // File size validation
+        long MAX_FILE_SIZE = 10 * 1024 * 1024;
+
+        if (file.getSize() > MAX_FILE_SIZE) {
+            throw new RuntimeException("File size exceeds 10MB");
         }
+
+        // File type validation
+        String contentType = file.getContentType();
+
+        if (
+                !contentType.equals("image/png") &&
+                !contentType.equals("image/jpeg") &&
+                !contentType.equals("application/pdf") &&
+                !contentType.equals(
+                        "application/vnd.openxmlformats-officedocument.wordprocessingml.document")
+        ) {
+
+            throw new RuntimeException("Only PNG, JPG, JPEG, PDF, DOCX allowed");
+        }
+
     }
 }
