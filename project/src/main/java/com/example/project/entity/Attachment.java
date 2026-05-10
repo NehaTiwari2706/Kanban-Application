@@ -41,16 +41,25 @@ public class Attachment {
     @Column(name = "created_at", nullable = false)
     private LocalDateTime createdAt = LocalDateTime.now();
 
+    @Column(name = "is_deleted", nullable = false)
+    private Boolean isDeleted = false;
+
+    @Column(name = "deleted_at")
+    private LocalDateTime deletedAt;
+
     // Constructors
     public Attachment() {}
 
-    public Attachment(String fileUrl, String fileType, User uploadedBy, UserStory userStory, Task task, Defect defect) {
+    public Attachment(String fileUrl, String fileType, User uploadedBy, UserStory userStory, Task task, Defect defect, LocalDateTime createdAt, boolean isDeleted, LocalDateTime deletedAt) {
         this.fileUrl = fileUrl;
         this.fileType = fileType;
         this.uploadedBy = uploadedBy;
         this.userStory = userStory;
         this.task = task;
         this.defect = defect;
+        this.createdAt = createdAt;
+        this.isDeleted = isDeleted;
+        this.deletedAt = deletedAt;
     }
 
     // Getters and setters
@@ -108,6 +117,20 @@ public class Attachment {
     }
     public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
+    }
+
+    public boolean isDeleted() {
+        return isDeleted;
+    }
+    public void setDeleted(boolean deleted) {
+        isDeleted = deleted;
+    }
+
+    public LocalDateTime getDeletedAt() {
+        return deletedAt;
+    }
+    public void setDeletedAt(LocalDateTime deletedAt) {
+        this.deletedAt = deletedAt;
     }
 
 }

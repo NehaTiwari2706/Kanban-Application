@@ -15,6 +15,11 @@ import com.example.project.util.FileUploadUtility;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.http.ResponseEntity;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import java.time.LocalDateTime;
 
 /* AttachmentService
 
@@ -64,15 +69,15 @@ public class AttachmentService {
                 .orElseThrow(() ->
                         new RuntimeException("User not found"));
 
-        boolean uploaded = fileUploadUtility.uploadFile(file);
+        String uploaded = fileUploadUtility.uploadFile(file);
 
-        if (!uploaded) {
+        if (uploaded == null) {
             throw new RuntimeException("Failed to upload file");
         }
 
         Attachment attachment = new Attachment();
 
-        attachment.setFileUrl(file.getOriginalFilename());
+        attachment.setFileUrl(uploaded);
 
         attachment.setFileType(file.getContentType());
 
@@ -101,15 +106,15 @@ public class AttachmentService {
                 .orElseThrow(() ->
                         new RuntimeException("User not found"));
 
-        boolean uploaded = fileUploadUtility.uploadFile(file);
+        String uploaded = fileUploadUtility.uploadFile(file);
 
-        if (!uploaded) {
+        if (uploaded == null) {
             throw new RuntimeException("Failed to upload file");
         }
 
         Attachment attachment = new Attachment();
 
-        attachment.setFileUrl(file.getOriginalFilename());
+        attachment.setFileUrl(uploaded);
 
         attachment.setFileType(file.getContentType());
 
@@ -138,15 +143,15 @@ public class AttachmentService {
                 .orElseThrow(() ->
                         new RuntimeException("User not found"));
 
-        boolean uploaded = fileUploadUtility.uploadFile(file);
+        String uploaded = fileUploadUtility.uploadFile(file);
 
-        if (!uploaded) {
+        if (uploaded == null) {
             throw new RuntimeException("Failed to upload file");
         }
 
         Attachment attachment = new Attachment();
 
-        attachment.setFileUrl(file.getOriginalFilename());
+        attachment.setFileUrl(uploaded);
 
         attachment.setFileType(file.getContentType());
 
@@ -157,5 +162,52 @@ public class AttachmentService {
         attachmentRepository.save(attachment);
 
         return "User story attachment uploaded successfully";
+    }
+
+
+    //download file
+    public ResponseEntity<Resource> downloadFile(Long attachmentId) {
+
+    try {
+
+        Attachment attachment =
+                attachmentRepository.findById(attachmentId)
+                .orElseThrow(() ->
+                        new RuntimeException("Attachment not found"));
+
+        Resource resource =
+                fileUploadUtility.downloadFile(
+                        attachment.getFileUrl());
+
+            return ResponseEntity.ok()
+                    .contentType(
+                            MediaType.parseMediaType(
+                                    attachment.getFileType()))
+                    .header(
+                            HttpHeaders.CONTENT_DISPOSITION,
+                            "attachment; filename=\""
+                                    + resource.getFilename()
+                                    + "\"")
+                    .body(resource);
+
+        } catch (Exception e) {
+
+            throw new RuntimeException(e.getMessage());
+        }
+    }
+
+    public String deleteAttachment(Long id) {
+
+        Attachment attachment = attachmentRepository.findById(id)
+                .orElseThrow(() ->
+                        new RuntimeException("Attachment not found"));
+
+        attachment.setDeleted(true);
+
+        attachment.setDeletedAt(LocalDateTime.now());
+
+        attachmentRepository.save(attachment);
+
+        return "Attachment deleted successfully";
     }
 }

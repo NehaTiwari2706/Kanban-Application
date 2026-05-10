@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.core.io.Resource;
 
 @RestController
 @RequestMapping("/api/attachments")
@@ -119,6 +120,22 @@ public class AttachmentController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body(e.getMessage());
         }
+    }
+
+    @GetMapping("/download/{id}")
+    public ResponseEntity<Resource> downloadFile(
+            @PathVariable Long id) {
+
+        return attachmentService.downloadFile(id);
+    }
+
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteAttachment(
+            @PathVariable Long id) {
+
+        return ResponseEntity.ok(
+                attachmentService.deleteAttachment(id));
     }
 
     // ==============================
