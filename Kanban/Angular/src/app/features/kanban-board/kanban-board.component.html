@@ -1,0 +1,130 @@
+<div class="app-wrapper">
+
+  <app-sidebar></app-sidebar>
+
+  <div class="main-section">
+
+    <app-header></app-header>
+
+    <main class="dashboard-content">
+
+      <!-- Greeting -->
+      <section class="welcome-section">
+
+        <h1>
+          Good morning, Neha 👋
+        </h1>
+
+      </section>
+
+
+      <!-- Statistics -->
+      <section class="stats-grid">
+
+        <div class="stat-card">
+          <span class="stat-title">Tasks</span>
+          <strong>24</strong>
+        </div>
+
+        <div class="stat-card">
+          <span class="stat-title">In Progress</span>
+          <strong>8</strong>
+        </div>
+
+        <div class="stat-card">
+          <span class="stat-title">Completed</span>
+          <strong>13</strong>
+        </div>
+
+        <div class="stat-card">
+          <span class="stat-title">Defects</span>
+          <strong>3</strong>
+        </div>
+
+      </section>
+
+
+      <!-- Current Iteration -->
+      <section class="iteration-card">
+
+        <div class="iteration-header">
+
+          <div>
+            <h2>Current Iteration</h2>
+
+            <p>
+              Sprint 12, Aug 25 - Sep 05
+            </p>
+          </div>
+
+          <strong>72%</strong>
+
+        </div>
+
+
+        <div class="progress-bar">
+
+          <div
+            class="progress"
+            style="width: 72%">
+          </div>
+
+        </div>
+
+      </section>
+
+
+      <!-- My Work -->
+      <section class="work-card">
+
+        <div class="work-header">
+
+          <h2>My Work</h2>
+
+          <button type="button" class="list-button">
+            <lucide-icon [img]="listIcon" size="16" strokeWidth="2.2"></lucide-icon>
+            <span>List</span>
+          </button>
+
+        </div>
+
+
+        <div class="work-table">
+
+          <div class="table-header">
+            <span>Task</span>
+            <span>Status</span>
+            <span>Priority</span>
+            <span>Actions</span>
+          </div>
+
+
+          <div class="table-row">
+
+            <span>
+              Implement JWT
+            </span>
+
+            <span class="status">
+              In Progress
+            </span>
+
+            <span class="priority">
+              High
+            </span>
+
+            <span>
+              ...
+            </span>
+
+          </div>
+
+        </div>
+
+      </section>
+
+    </main>
+
+  </div>
+
+</div>

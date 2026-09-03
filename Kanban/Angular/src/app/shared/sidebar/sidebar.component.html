@@ -1,0 +1,34 @@
+<aside class="sidebar">
+    <!-- Logo -->
+    <div class="logo-section">
+        <div class="logo-icon">
+            K
+        </div>
+
+        <span class="logo-text">
+            KANBAN
+        </span>
+    </div>
+
+
+    <!-- Navigation -->
+    <nav class="navigation">
+
+        <a *ngFor="let item of navItems" 
+            class="nav-item" 
+            [routerLink]="item.route" 
+            routerLinkActive="active"
+            [routerLinkActiveOptions]="{ exact: true }">
+
+            <lucide-icon [img]="item.icon" class="nav-icon" size="18" strokeWidth="2.2"></lucide-icon>
+
+            <span>
+                {{ item.label }}
+            </span>
+
+        </a>
+
+    </nav>
+
+
+</aside>
