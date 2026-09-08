@@ -1,1 +1,79 @@
-<p>teams works!</p>
+<div class="page-content">
+
+  <div class="page-header">
+    <div>
+      <h1>Teams</h1>
+      <p>Collaborate. Build. Achieve.</p>
+    </div>
+
+    <button class="primary-btn">
+      + Create Team
+    </button>
+  </div>
+
+  <div class="featured-teams">
+    <div class="team-card" *ngFor="let team of teams.slice(0, 3)">
+      <div class="team-title">
+        <div class="team-icon">👥</div>
+
+        <div>
+          <h2>{{ team.name }}</h2>
+          <span>{{ team.members }} members</span>
+        </div>
+      </div>
+
+      <div class="avatars">
+        <span class="avatar" *ngFor="let member of [].constructor(team.members)">
+          👤
+        </span>
+      </div>
+
+      <div class="team-footer">
+        <span>Active Sprint: {{ team.sprint }}</span>
+        <button type="button">View Team →</button>
+      </div>
+    </div>
+  </div>
+
+  <section class="table-card">
+    <div class="table-title">
+      <h2>All Teams</h2>
+
+      <div class="search-box">
+        <span>⌕</span>
+        <input
+          type="text"
+          placeholder="Search teams..."
+          [(ngModel)]="searchText">
+      </div>
+    </div>
+
+    <div class="table-header">
+      <span>Team</span>
+      <span>Members</span>
+      <span>Active Sprint</span>
+      <span>Status</span>
+      <span>Actions</span>
+    </div>
+
+    <div class="team-row" *ngFor="let team of filteredTeams">
+      <div class="team-name">
+        <div class="small-team-icon">{{ team.name.charAt(0) }}</div>
+        {{ team.name }}
+      </div>
+
+      <span>{{ team.members }} members</span>
+      <span>{{ team.sprint }}</span>
+
+      <span
+        class="status"
+        [class.active]="team.status === 'Active'"
+        [class.hold]="team.status === 'On Hold'">
+        {{ team.status }}
+      </span>
+
+      <button type="button" class="action-btn">⋯</button>
+    </div>
+  </section>
+</div>
+

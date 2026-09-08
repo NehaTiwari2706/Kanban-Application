@@ -1,30 +1,134 @@
-<div class="app-wrapper">
+<div class="page-content">
 
-  <app-sidebar></app-sidebar>
+  <!-- Page Header -->
+  <div class="page-header">
 
-  <div class="main-section">
+    <div>
+      <h1>Projects</h1>
+      <p>Manage and track all your projects</p>
+    </div>
 
-    <app-header></app-header>
+    <button class="primary-btn">
+      + Create Project
+    </button>
 
-    <main class="projects-page">
-        
-      <!-- Page Header -->
-      <div class="page-header">
+  </div>
 
-        <div>
-          <h1>Projects</h1>
 
-          <p>
-            Manage your projects and teams
-          </p>
+  <!-- Filters -->
+  <div class="toolbar">
+
+    <div class="search-box">
+      <span>⌕</span>
+
+      <input
+        type="text"
+        placeholder="Search projects..."
+        [(ngModel)]="searchText">
+    </div>
+
+    <select [(ngModel)]="statusFilter">
+      <option value="All">All Status</option>
+      <option value="Active">Active</option>
+      <option value="Completed">Completed</option>
+      <option value="On Hold">On Hold</option>
+    </select>
+
+  </div>
+
+
+  <!-- Statistics -->
+  <div class="stats-grid">
+
+    <div class="stat-card">
+      <span>Total Projects</span>
+      <strong>{{ totalProjects }}</strong>
+    </div>
+
+    <div class="stat-card">
+      <span>Active</span>
+      <strong>{{ activeProjects }}</strong>
+    </div>
+
+    <div class="stat-card">
+      <span>Completed</span>
+      <strong>{{ completedProjects }}</strong>
+    </div>
+
+    <div class="stat-card">
+      <span>On Hold</span>
+      <strong>{{ onHoldProjects }}</strong>
+    </div>
+
+  </div>
+
+
+  <!-- Projects Table -->
+  <section class="table-card">
+
+    <div class="table-header">
+      <span>Project</span>
+      <span>Status</span>
+      <span>Members</span>
+      <span>Progress</span>
+      <span>Actions</span>
+    </div>
+
+
+    <div
+      class="project-row"
+      *ngFor="let project of filteredProjects">
+
+      <div class="project-info">
+
+        <div class="project-icon">
+          {{ project.name.charAt(0) }}
         </div>
 
-        <button class="create-btn">
-          + Create
-        </button>
+        <div>
+          <strong>{{ project.name }}</strong>
+          <small>{{ project.description }}</small>
+        </div>
 
       </div>
 
-    </main>
-  </div>
+
+      <span
+        class="status"
+        [class.active]="project.status === 'Active'"
+        [class.completed]="project.status === 'Completed'"
+        [class.hold]="project.status === 'On Hold'">
+
+        {{ project.status }}
+
+      </span>
+
+
+      <span>
+        {{ project.members }} members
+      </span>
+
+
+      <div class="progress-section">
+
+        <span>{{ project.progress }}%</span>
+
+        <div class="progress-bar">
+          <div
+            class="progress"
+            [style.width.%]="project.progress">
+          </div>
+        </div>
+
+      </div>
+
+
+      <button class="action-btn">
+        ⋯
+      </button>
+
+    </div>
+
+  </section>
+
 </div>

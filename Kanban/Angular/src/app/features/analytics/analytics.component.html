@@ -1,1 +1,115 @@
-<p>analytics works!</p>
+<div class="page-content">
+	<div class="page-header">
+		<div>
+			<h1>Analytics</h1>
+			<p>Insights to help you work better</p>
+		</div>
+
+		<button type="button" class="date-btn">
+			Aug 25, 2025 - Sep 05, 2025 📅
+		</button>
+	</div>
+
+	<div class="stats-grid">
+		<div class="stat-card">
+			<span>Total Tasks</span>
+			<strong>{{ stats.totalTasks }}</strong>
+			<small>↑ 12%</small>
+		</div>
+
+		<div class="stat-card">
+			<span>Completed</span>
+			<strong>{{ stats.completed }}</strong>
+			<small>↑ 20%</small>
+		</div>
+
+		<div class="stat-card">
+			<span>In Progress</span>
+			<strong>{{ stats.inProgress }}</strong>
+			<small>↑ 8%</small>
+		</div>
+
+		<div class="stat-card">
+			<span>Defects</span>
+			<strong>{{ stats.defects }}</strong>
+			<small class="danger">↓ 25%</small>
+		</div>
+	</div>
+
+	<div class="charts-grid">
+		<section class="chart-card">
+			<h2>Task Status</h2>
+
+			<div class="donut-area">
+				<div class="donut">
+					<div class="donut-center">
+						<strong>24</strong>
+						<span>Total</span>
+					</div>
+				</div>
+
+				<div class="legend">
+					<div><i class="todo"></i>To Do <span>8 (33%)</span></div>
+					<div><i class="progress"></i>In Progress <span>8 (33%)</span></div>
+					<div><i class="review"></i>Review <span>4 (17%)</span></div>
+					<div><i class="done"></i>Done <span>4 (17%)</span></div>
+				</div>
+			</div>
+		</section>
+
+		<section class="chart-card">
+			<h2>Sprint Progress</h2>
+			<p>Sprint 12, Aug 25 - Sep 05</p>
+			<div class="sprint-value">72%</div>
+			<div class="large-progress"><div></div></div>
+		</section>
+
+		<section class="chart-card">
+			<h2>Tasks by Priority</h2>
+
+			<div class="bars">
+				<div class="bar-item">
+					<span>10</span>
+					<div class="bar high"></div>
+					<label>High</label>
+				</div>
+				<div class="bar-item">
+					<span>9</span>
+					<div class="bar medium"></div>
+					<label>Medium</label>
+				</div>
+				<div class="bar-item">
+					<span>5</span>
+					<div class="bar low"></div>
+					<label>Low</label>
+				</div>
+			</div>
+		</section>
+	</div>
+
+	<section class="table-card">
+		<h2>Team Performance</h2>
+
+		<div class="table-header">
+			<span>Team</span>
+			<span>Completed</span>
+			<span>In Progress</span>
+			<span>Total</span>
+			<span>Completion Rate</span>
+		</div>
+
+		<div class="team-row" *ngFor="let team of teams">
+			<strong>{{ team.name }}</strong>
+			<span>{{ team.completed }}</span>
+			<span>{{ team.inProgress }}</span>
+			<span>{{ team.total }}</span>
+
+			<div class="rate">
+				<span>{{ team.rate }}%</span>
+				<div class="rate-bar">
+					<div [style.width.%]="team.rate"></div>
+				</div>
+			</div>
+		</div>
+	</section>
+</div>

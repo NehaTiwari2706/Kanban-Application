@@ -9,23 +9,30 @@ import { ProjectsComponent } from './app/features/projects/projects.component';
 import { SettingsComponent } from './app/features/settings/settings.component';
 import { TeamsComponent } from './app/features/teams/teams.component';
 import { AnalyticsComponent } from './app/features/analytics/analytics.component';
+import { LayoutComponent } from './app/shared/layout/layout.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
   { path: 'home', component: HomeComponent },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
-  { path: 'kanban', component: KanbanBoardComponent },
-  { path: 'my-work', component: MyWorkComponent},
-  { path: 'projects', component: ProjectsComponent },
-  { path: 'settings', component: SettingsComponent },
-  { path: 'teams', component: TeamsComponent },
-  { path: 'analytics', component: AnalyticsComponent },
+  {
+    path: '',
+    component: LayoutComponent,
+    children: [
+      { path: 'kanban', component: KanbanBoardComponent },
+      { path: 'my-work', component: MyWorkComponent },
+      { path: 'projects', component: ProjectsComponent },
+      { path: 'settings', component: SettingsComponent },
+      { path: 'teams', component: TeamsComponent },
+      { path: 'analytics', component: AnalyticsComponent }
+    ]
+  },
   { path: '**', redirectTo: '/home' } // Wildcard route - must be last
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes), KanbanBoardComponent],
+  imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }

@@ -1,1 +1,169 @@
-<p>settings works!</p>
+<div class="page-content">
+	<div class="page-header">
+		<div>
+			<h1>Settings</h1>
+			<p>Manage your account and application preferences</p>
+		</div>
+	</div>
+
+	<section class="settings-card">
+		<aside class="settings-nav">
+			<button
+				type="button"
+				*ngFor="let tab of tabs"
+				[class.active]="activeTab === tab"
+				(click)="selectTab(tab)">
+				{{ tab }}
+			</button>
+		</aside>
+
+		<div class="settings-content">
+			<div *ngIf="activeTab === 'Profile'">
+				<div class="section-heading">
+					<h2>Profile</h2>
+					<p>Update your personal information</p>
+				</div>
+
+				<div class="profile-photo">
+					<div class="large-avatar">N</div>
+					<button type="button">Change Photo</button>
+				</div>
+
+				<div class="form-group">
+					<label for="full-name">Full Name</label>
+					<input id="full-name" type="text" [(ngModel)]="user.name">
+				</div>
+
+				<div class="form-group">
+					<label for="email">Email Address</label>
+					<input id="email" type="email" [(ngModel)]="user.email">
+				</div>
+
+				<div class="form-group">
+					<label for="role">Role</label>
+					<input id="role" type="text" [(ngModel)]="user.role">
+				</div>
+
+				<div class="form-group">
+					<label for="team">Team</label>
+					<select id="team" [(ngModel)]="user.team">
+						<option>Development Team</option>
+						<option>QA Team</option>
+						<option>Design Team</option>
+					</select>
+				</div>
+
+				<div class="form-group">
+					<label for="bio">Bio</label>
+					<textarea
+						id="bio"
+						rows="4"
+						maxlength="200"
+						placeholder="Add a short bio..."
+						[(ngModel)]="user.bio"></textarea>
+					<small>{{ user.bio.length }}/200</small>
+				</div>
+
+				<button type="button" class="save-btn" (click)="saveChanges()">
+					Save Changes
+				</button>
+			</div>
+
+			<div *ngIf="activeTab === 'Notifications'">
+				<div class="section-heading">
+					<h2>Notifications</h2>
+					<p>Manage your notification preferences</p>
+				</div>
+
+				<div class="setting-row">
+					<div>
+						<strong>Email Notifications</strong>
+						<p>Receive important updates through email.</p>
+					</div>
+					<input type="checkbox" checked>
+				</div>
+
+				<div class="setting-row">
+					<div>
+						<strong>Task Updates</strong>
+						<p>Notify me when tasks are updated.</p>
+					</div>
+					<input type="checkbox" checked>
+				</div>
+
+				<div class="setting-row">
+					<div>
+						<strong>Mentions</strong>
+						<p>Notify me when someone mentions you.</p>
+					</div>
+					<input type="checkbox" checked>
+				</div>
+			</div>
+
+			<div *ngIf="activeTab === 'Appearance'">
+				<div class="section-heading">
+					<h2>Appearance</h2>
+					<p>Customize how KANBANX looks.</p>
+				</div>
+
+				<div class="appearance-options">
+					<div class="appearance-option active">
+						<div class="preview light"></div>
+						<strong>Light</strong>
+					</div>
+					<div class="appearance-option">
+						<div class="preview dark"></div>
+						<strong>Dark</strong>
+					</div>
+				</div>
+			</div>
+
+			<div *ngIf="activeTab === 'Security'">
+				<div class="section-heading">
+					<h2>Security</h2>
+					<p>Manage your account security.</p>
+				</div>
+
+				<div class="form-group">
+					<label for="current-password">Current Password</label>
+					<input id="current-password" type="password">
+				</div>
+
+				<div class="form-group">
+					<label for="new-password">New Password</label>
+					<input id="new-password" type="password">
+				</div>
+
+				<div class="form-group">
+					<label for="confirm-password">Confirm Password</label>
+					<input id="confirm-password" type="password">
+				</div>
+
+				<button type="button" class="save-btn">Update Password</button>
+			</div>
+
+			<div *ngIf="activeTab === 'Integrations'">
+				<div class="section-heading">
+					<h2>Integrations</h2>
+					<p>Connect KANBANX with external services.</p>
+				</div>
+
+				<div class="integration">
+					<div>
+						<strong>GitHub</strong>
+						<p>Connect repositories and track issues.</p>
+					</div>
+					<button type="button">Connect</button>
+				</div>
+
+				<div class="integration">
+					<div>
+						<strong>Jenkins</strong>
+						<p>Connect CI/CD pipelines.</p>
+					</div>
+					<button type="button">Connect</button>
+				</div>
+			</div>
+		</div>
+	</section>
+</div>

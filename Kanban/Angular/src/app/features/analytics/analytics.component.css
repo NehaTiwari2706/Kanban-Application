@@ -1,0 +1,300 @@
+:host {
+	display: block;
+	height: 100%;
+	min-height: 0;
+}
+
+.page-content {
+	flex: 1;
+	height: 100%;
+	min-height: 0;
+	overflow-y: auto;
+	overflow-x: hidden;
+	padding: 28px 30px;
+	box-sizing: border-box;
+}
+
+.page-header {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin-bottom: 18px;
+}
+
+.page-header h1 {
+	margin: 0;
+	font-size: 23px;
+}
+
+.page-header p {
+	margin: 5px 0 0;
+	color: #777;
+	font-size: 12px;
+}
+
+.date-btn {
+	border: 1px solid #dce1e7;
+	background: white;
+	padding: 8px 12px;
+	border-radius: 6px;
+	font-size: 11px;
+}
+
+.stats-grid {
+	display: grid;
+	grid-template-columns: repeat(4, 1fr);
+	gap: 12px;
+	margin-bottom: 14px;
+}
+
+.stat-card {
+	padding: 14px;
+	border: 1px solid #dce1e7;
+	border-radius: 8px;
+}
+
+.stat-card span {
+	font-size: 10px;
+	color: #666;
+}
+
+.stat-card strong {
+	display: block;
+	margin: 5px 0;
+	font-size: 23px;
+}
+
+.stat-card small {
+	color: #35a878;
+	font-size: 9px;
+}
+
+.stat-card .danger {
+	color: #d95353;
+}
+
+.charts-grid {
+	display: grid;
+	grid-template-columns: 1.2fr 1fr 1fr;
+	gap: 12px;
+	margin-bottom: 14px;
+}
+
+.chart-card {
+	min-height: 190px;
+	padding: 15px;
+	border: 1px solid #dce1e7;
+	border-radius: 8px;
+}
+
+.chart-card h2 {
+	margin: 0;
+	font-size: 13px;
+}
+
+.chart-card > p {
+	color: #777;
+	font-size: 10px;
+}
+
+.donut-area {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 25px;
+	margin-top: 18px;
+}
+
+.donut {
+	width: 105px;
+	height: 105px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	border-radius: 50%;
+	background: conic-gradient(
+		#1769d1 0 33%,
+		#f0ad24 33% 66%,
+		#974bc4 66% 83%,
+		#35a878 83% 100%
+	);
+}
+
+.donut-center {
+	width: 65px;
+	height: 65px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	border-radius: 50%;
+	background: white;
+}
+
+.donut-center strong {
+	font-size: 18px;
+}
+
+.donut-center span {
+	font-size: 9px;
+	color: #777;
+}
+
+.legend div {
+	margin: 8px 0;
+	font-size: 10px;
+}
+
+.legend i {
+	display: inline-block;
+	width: 8px;
+	height: 8px;
+	margin-right: 5px;
+	border-radius: 50%;
+}
+
+.legend span {
+	margin-left: 10px;
+	color: #777;
+}
+
+.todo { background: #1769d1; }
+.progress { background: #f0ad24; }
+.review { background: #974bc4; }
+.done { background: #35a878; }
+
+.sprint-value {
+	margin-top: 55px;
+	text-align: right;
+	font-size: 24px;
+	font-weight: 600;
+}
+
+.large-progress {
+	height: 7px;
+	overflow: hidden;
+	background: #e5e8ec;
+	border-radius: 10px;
+}
+
+.large-progress div {
+	width: 72%;
+	height: 100%;
+	background: #35a878;
+}
+
+.bars {
+	height: 145px;
+	display: flex;
+	align-items: flex-end;
+	justify-content: space-around;
+	margin-top: 10px;
+}
+
+.bar-item {
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: flex-end;
+}
+
+.bar {
+	width: 40px;
+	margin: 5px 0;
+	border-radius: 4px 4px 0 0;
+}
+
+.high { height: 75px; background: #ef6464; }
+.medium { height: 60px; background: #f0ad24; }
+.low { height: 35px; background: #35a878; }
+
+.bar-item span,
+.bar-item label {
+	font-size: 9px;
+}
+
+.table-card {
+	border: 1px solid #dce1e7;
+	border-radius: 8px;
+	overflow: hidden;
+}
+
+.table-card h2 {
+	margin: 0;
+	padding: 14px;
+	font-size: 13px;
+}
+
+.table-header,
+.team-row {
+	display: grid;
+	grid-template-columns: 2fr 1fr 1fr 1fr 2fr;
+	align-items: center;
+	padding: 10px 14px;
+}
+
+.table-header {
+	background: #fafafa;
+	border-top: 1px solid #eee;
+	border-bottom: 1px solid #eee;
+	color: #666;
+	font-size: 10px;
+}
+
+.team-row {
+	border-bottom: 1px solid #eee;
+	font-size: 10px;
+}
+
+.rate {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+}
+
+.rate-bar {
+	width: 80px;
+	height: 5px;
+	overflow: hidden;
+	background: #e5e8ec;
+	border-radius: 10px;
+}
+
+.rate-bar div {
+	height: 100%;
+	background: #35a878;
+}
+
+@media (max-width: 850px) {
+	.page-content {
+		padding: 20px;
+	}
+
+	.stats-grid,
+	.charts-grid {
+		grid-template-columns: repeat(2, 1fr);
+	}
+
+	.table-card {
+		overflow-x: auto;
+	}
+
+	.table-header,
+	.team-row {
+		min-width: 650px;
+	}
+}
+
+@media (max-width: 560px) {
+	.page-header,
+	.donut-area {
+		align-items: flex-start;
+		flex-direction: column;
+	}
+
+	.stats-grid,
+	.charts-grid {
+		grid-template-columns: 1fr;
+	}
+}

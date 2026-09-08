@@ -1,8 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { HeaderComponent } from '../../shared/header/header.component';
-import { SidebarComponent } from '../../shared/sidebar/sidebar.component';
 
 interface Task {
   id: number;
@@ -16,7 +14,7 @@ interface Task {
 @Component({
   selector: 'app-my-work',
   standalone: true,
-  imports: [CommonModule, FormsModule, HeaderComponent, SidebarComponent],
+  imports: [CommonModule, FormsModule],
   templateUrl: './my-work.component.html',
   styleUrl: './my-work.component.css'
 })

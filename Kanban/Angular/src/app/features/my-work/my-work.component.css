@@ -4,34 +4,11 @@
   height: 100%;
 }
 
-.app-wrapper {
-  width: calc(100% - 36px);
-  max-width: 1400px;
-  height: calc(100vh - 36px);
-  margin: 18px auto;
-  display: flex;
-  background: #ffffff;
-  border: 1px solid #dce1e8;
-  border-radius: 12px;
-  overflow: hidden;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
-}
-
-.main-section {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  min-width: 0;
-}
-
-.projects-page {
+.my-work-page {
   flex: 1;
   padding: 26px 30px;
-
-  height: 100%;
-
+  min-height: 0;
   box-sizing: border-box;
-
   overflow: auto;
 }
 
@@ -39,11 +16,9 @@
 
 .page-header {
   display: flex;
-
+  padding: 8px;
   align-items: center;
-
   justify-content: space-between;
-
   margin-bottom: 20px;
 }
 
@@ -96,11 +71,9 @@
  /* TOOLBAR */
 .toolbar {
   display: flex;
-
+  padding: 8px;
   align-items: center;
-
   gap: 10px;
-
   margin-bottom: 16px;
 }
 
@@ -159,25 +132,28 @@
 /* KANBAN BOARD */
 .kanban-board {
   display: grid;
-
-  grid-template-columns:
-    repeat(3, minmax(260px, 1fr));
-
+  grid-template-columns: repeat(3, minmax(260px, 1fr));
   gap: 12px;
-
+  padding: 8px;
   align-items: start;
+  min-width: 804px;
+  max-height: calc(100vh - 210px);
+  overflow-x: auto;
+  overflow-y: hidden;
 }
 
 
  /* COLUMNS */
 .kanban-column {
-  min-height: 520px;
+  min-height: 0;
+  max-height: 100%;
 
   border-radius: 8px;
 
   padding: 10px;
 
   box-sizing: border-box;
+  overflow: hidden;
 }
 
 .todo-column {
@@ -283,6 +259,10 @@
   flex-direction: column;
 
   gap: 8px;
+  max-height: calc(100vh - 290px);
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding-right: 4px;
 }
 
 
