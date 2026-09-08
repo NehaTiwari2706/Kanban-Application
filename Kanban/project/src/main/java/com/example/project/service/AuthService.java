@@ -1,15 +1,17 @@
 package com.example.project.service;
 
-import com.example.project.dto.UserRegisterRequest;
-import com.example.project.dto.UserLoginRequest;
-import com.example.project.dto.AuthResponse;
-import com.example.project.dto.UserDTO;
-import com.example.project.entity.User;
-import com.example.project.repository.UserRepository;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import java.util.Optional;
+
+import com.example.project.dto.AuthResponse;
+import com.example.project.dto.UserDTO;
+import com.example.project.dto.UserLoginRequest;
+import com.example.project.dto.UserRegisterRequest;
+import com.example.project.entity.User;
+import com.example.project.repository.UserRepository;
 
 @Service
 public class AuthService {
@@ -60,7 +62,7 @@ public class AuthService {
                 savedUser.getCreatedAt(),
                 savedUser.getDomain()
             );
-            return new AuthResponse(true, "User registered successfully", userDTO);
+            return new AuthResponse(true, "User registered successfully", userDTO, null);
         } catch (Exception e) {
             return new AuthResponse(false, "Registration failed: " + e.getMessage());
         }
