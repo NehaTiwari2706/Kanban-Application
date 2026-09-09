@@ -10,6 +10,7 @@ import { SettingsComponent } from './app/features/settings/settings.component';
 import { TeamsComponent } from './app/features/teams/teams.component';
 import { AnalyticsComponent } from './app/features/analytics/analytics.component';
 import { LayoutComponent } from './app/shared/layout/layout.component';
+import { AuthGuard } from './app/core/guard/auth.guard';
 
 const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
@@ -19,6 +20,7 @@ const routes: Routes = [
   {
     path: '',
     component: LayoutComponent,
+    canActivate: [AuthGuard],
     children: [
       { path: 'kanban', component: KanbanBoardComponent },
       { path: 'my-work', component: MyWorkComponent },
@@ -28,7 +30,7 @@ const routes: Routes = [
       { path: 'analytics', component: AnalyticsComponent }
     ]
   },
-  { path: '**', redirectTo: '/home' } // Wildcard route - must be last
+  { path: '**', redirectTo: '/home' }
 ];
 
 @NgModule({

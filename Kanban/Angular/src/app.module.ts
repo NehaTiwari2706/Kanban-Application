@@ -11,6 +11,7 @@ import { LoginComponent } from './app/features/LoginPage/login.component';
 import { RegisterComponent } from './app/features/RegisterPage/register.component';
 import { TooltipModule } from 'primeng/tooltip';
 import { AuthInterceptor } from './app/core/interceptors/auth.interceptors';
+import { AuthGuard } from './app/core/guard/auth.guard';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,8 @@ import { AuthInterceptor } from './app/core/interceptors/auth.interceptors';
     TooltipModule
   ],
   providers: [
-    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+    AuthGuard
   ],
   bootstrap: [AppComponent]
 })
