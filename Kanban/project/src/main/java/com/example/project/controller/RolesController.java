@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 @RestController
 @RequestMapping("/api/roles")
-@CrossOrigin(origins = "http://localhost:4200", allowCredentials = "true")
 public class RolesController {
     
     @Autowired

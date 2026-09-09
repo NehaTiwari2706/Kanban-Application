@@ -15,7 +15,6 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/team-members")
-@CrossOrigin(origins = "http://localhost:4200", allowCredentials = "true")
 public class TeamMembersController {
 
     private final TeamMemberService teamMemberService;

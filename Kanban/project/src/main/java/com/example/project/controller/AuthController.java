@@ -18,7 +18,6 @@ import com.example.project.service.AuthService;
 
     @RestController
     @RequestMapping("/api/auth")
-    @CrossOrigin(origins = "http://localhost:4200", allowCredentials = "true")
     /** Exposes registration, login, and logout endpoints. */
     public class AuthController {
 

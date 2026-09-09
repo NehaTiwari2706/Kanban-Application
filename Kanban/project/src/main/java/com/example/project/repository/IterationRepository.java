@@ -6,7 +6,6 @@ import org.springframework.data.jpa.repository.Query;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Optional;
 
 public interface IterationRepository extends JpaRepository<Iteration, Long> {
 
@@ -18,8 +17,9 @@ public interface IterationRepository extends JpaRepository<Iteration, Long> {
     @Query("""
            SELECT i
            FROM Iteration i
-           WHERE :today BETWEEN i.startDate AND i.endDate
+           WHERE i.startDate <= :today
+             AND i.endDate >= :today
            ORDER BY i.startDate ASC
            """)
-    Optional<Iteration> findCurrentIteration(LocalDate today);
+    List<Iteration> findCurrentIteration(LocalDate today);
 }

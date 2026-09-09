@@ -18,7 +18,6 @@ import com.example.project.service.TeamService;
 
 @RestController
 @RequestMapping("/api/teams")
-@CrossOrigin(origins = "http://localhost:4200", allowCredentials = "true")
 public class TeamController {
     
     @Autowired

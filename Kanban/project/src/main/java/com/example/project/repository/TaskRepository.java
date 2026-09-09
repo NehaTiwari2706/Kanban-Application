@@ -40,5 +40,11 @@ public interface TaskRepository extends JpaRepository<Task, Long> {
            """)
     long countByIterationIdAndStatus(Long iterationId, Task.Status status);
 
+    @Query("""
+           SELECT t
+           FROM Task t
+           WHERE t.assignedTo.id = :userId
+           ORDER BY t.id DESC
+           """)
     List<Task> findByAssignedToId(Long userId);
 }

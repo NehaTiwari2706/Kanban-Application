@@ -21,7 +21,6 @@ import com.example.project.service.IterationService;
 
 @RestController
 @RequestMapping("/api/iterations")
-@CrossOrigin(origins = "http://localhost:4200", allowCredentials = "true")
 public class IterationController {
 
     @Autowired

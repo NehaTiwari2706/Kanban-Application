@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { LayoutList, LucideAngularModule } from 'lucide-angular';
 import { DashboardService, DashboardResponse } from '../../services/dashboard.service';
 
 @Component({
   selector: 'app-kanban-board',
   standalone: true,
-  imports: [LucideAngularModule],
+  imports: [CommonModule, LucideAngularModule],
   templateUrl: './kanban-board.component.html',
   styleUrl: './kanban-board.component.css'
 })

@@ -20,7 +20,6 @@ import com.example.project.service.AttachmentService;
 
 @RestController
 @RequestMapping("/api/attachments")
-@CrossOrigin(origins = "http://localhost:4200", allowCredentials = "true")
 public class AttachmentController {
 
     @Autowired

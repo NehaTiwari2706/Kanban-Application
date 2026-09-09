@@ -22,7 +22,7 @@ import com.example.project.service.TaskService;
 
 @RestController
 @RequestMapping("/api/task")
-@CrossOrigin(origins = "http://localhost:4200", allowCredentials = "true")
+
 public class TaskController {
     
     @Autowired

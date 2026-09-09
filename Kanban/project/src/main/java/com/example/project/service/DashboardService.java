@@ -8,8 +8,10 @@ import com.example.project.repository.DefectRepository;
 import com.example.project.repository.IterationRepository;
 import com.example.project.repository.TaskRepository;
 import com.example.project.repository.UserRepository;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -35,8 +37,12 @@ public class DashboardService {
     }
 
     public DashboardDTO getDashboard(String email) {
+        if (email == null || email.isBlank()) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Authenticated email missing");
+        }
+
         User user = userRepository.findByEmail(email)
-                .orElseThrow(() -> new RuntimeException("Authenticated user not found"));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Authenticated user not found"));
 
         long totalTasks = taskRepository.count();
         long inProgress = taskRepository.countByStatus(Task.Status.IN_PROGRESS);
@@ -47,11 +53,9 @@ public class DashboardService {
         dto.setUser(new DashboardDTO.UserSummaryDTO(user.getId(), user.getFullName()));
         dto.setSummary(new DashboardDTO.DashboardSummaryDTO(totalTasks, inProgress, completed, defects));
 
-        Iteration currentIteration = iterationRepository
-                .findCurrentIteration(LocalDate.now())
-                .orElse(null);
-
-        if (currentIteration != null) {
+        List<Iteration> currentIterations = iterationRepository.findCurrentIteration(LocalDate.now());
+        if (!currentIterations.isEmpty()) {
+            Iteration currentIteration = currentIterations.get(0);
             long totalInIteration = taskRepository.countByIterationId(currentIteration.getId());
             long doneInIteration = taskRepository.countByIterationIdAndStatus(currentIteration.getId(), Task.Status.DONE);
             int progress = totalInIteration == 0 ? 0 : (int) Math.round((doneInIteration * 100.0) / totalInIteration);
