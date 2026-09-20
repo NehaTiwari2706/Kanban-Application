@@ -11,7 +11,7 @@
       </p>
     </div>
 
-    <button class="create-btn">
+    <button class="create-btn" (click)="openCreateTaskModal()">
       + Create
     </button>
 
@@ -70,53 +70,58 @@
 
       <div class="task-list">
 
-        <div
-          class="task-card"
-          *ngFor="let task of getTasks('TODO')">
+        <ng-container *ngIf="getTasks('TODO').length; else emptyTodo">
+          <div
+            class="task-card"
+            *ngFor="let task of getTasks('TODO')">
 
-          <div class="task-top">
+            <div class="task-top">
 
-            <span class="task-id">
-              #{{ task.id }}
-            </span>
+              <span class="task-id">
+                #{{ task.id }}
+              </span>
 
-            <button class="card-menu">
-              ⋮
-            </button>
+              <button class="card-menu">
+                ⋮
+              </button>
 
-          </div>
-
-
-          <h3>
-            {{ task.title }}
-          </h3>
-
-
-          <span
-            class="priority"
-            [class.high]="task.priority === 'High'"
-            [class.medium]="task.priority === 'Medium'"
-            [class.low]="task.priority === 'Low'">
-
-            {{ task.priority }} Priority
-
-          </span>
-
-
-          <div class="task-footer">
-
-            <div class="assignee">
-              {{ task.assignee.charAt(0) }}
             </div>
 
-            <span class="task-type">
-              {{ task.type }}
+
+            <h3>
+              {{ task.title }}
+            </h3>
+
+
+            <span
+              class="priority"
+              [class.high]="task.priority === 'HIGH'"
+              [class.medium]="task.priority === 'MEDIUM'"
+              [class.low]="task.priority === 'LOW'">
+
+              {{ task.priority }} Priority
+
             </span>
 
+
+            <div class="task-footer">
+
+              <div class="assignee">
+                {{ task.assignee?.charAt(0) || 'U' }}
+              </div>
+
+              <span class="task-type">
+                {{ task.type || 'U' }}
+              </span>
+
+            </div>
+
           </div>
+        </ng-container>
 
-        </div>
-
+        <ng-template #emptyTodo>
+          <div class="empty-state">No tasks in To Do</div>
+        </ng-template>
 
         <button class="add-task-btn">
           + Add task
@@ -153,53 +158,58 @@
 
       <div class="task-list">
 
-        <div
-          class="task-card"
-          *ngFor="let task of getTasks('IN_PROGRESS')">
+        <ng-container *ngIf="getTasks('IN_PROGRESS').length; else emptyInProgress">
+          <div
+            class="task-card"
+            *ngFor="let task of getTasks('IN_PROGRESS')">
 
-          <div class="task-top">
+            <div class="task-top">
 
-            <span class="task-id">
-              #{{ task.id }}
-            </span>
+              <span class="task-id">
+                #{{ task.id }}
+              </span>
 
-            <button class="card-menu">
-              ⋮
-            </button>
+              <button class="card-menu">
+                ⋮
+              </button>
 
-          </div>
-
-
-          <h3>
-            {{ task.title }}
-          </h3>
-
-
-          <span
-            class="priority"
-            [class.high]="task.priority === 'High'"
-            [class.medium]="task.priority === 'Medium'"
-            [class.low]="task.priority === 'Low'">
-
-            {{ task.priority }} Priority
-
-          </span>
-
-
-          <div class="task-footer">
-
-            <div class="assignee">
-              {{ task.assignee.charAt(0) }}
             </div>
 
-            <span class="task-type">
-              {{ task.type }}
+
+            <h3>
+              {{ task.title }}
+            </h3>
+
+
+            <span
+              class="priority"
+              [class.high]="task.priority === 'HIGH'"
+              [class.medium]="task.priority === 'MEDIUM'"
+              [class.low]="task.priority === 'LOW'">
+
+              {{ task.priority }} Priority
+
             </span>
 
+
+            <div class="task-footer">
+
+              <div class="assignee">
+                {{ task.assignee?.charAt(0) || 'U' }}
+              </div>
+
+              <span class="task-type">
+                {{ task.type || 'U' }}
+              </span>
+
+            </div>
+
           </div>
+        </ng-container>
 
-        </div>
-
+        <ng-template #emptyInProgress>
+          <div class="empty-state">No tasks in progress</div>
+        </ng-template>
 
         <button class="add-task-btn">
           + Add task
@@ -236,53 +246,58 @@
 
       <div class="task-list">
 
-        <div
-          class="task-card"
-          *ngFor="let task of getTasks('DONE')">
+        <ng-container *ngIf="getTasks('DONE').length; else emptyDone">
+          <div
+            class="task-card"
+            *ngFor="let task of getTasks('DONE')">
 
-          <div class="task-top">
+            <div class="task-top">
 
-            <span class="task-id">
-              #{{ task.id }}
-            </span>
+              <span class="task-id">
+                #{{ task.id }}
+              </span>
 
-            <button class="card-menu">
-              ⋮
-            </button>
+              <button class="card-menu">
+                ⋮
+              </button>
 
-          </div>
-
-
-          <h3>
-            {{ task.title }}
-          </h3>
-
-
-          <span
-            class="priority"
-            [class.high]="task.priority === 'High'"
-            [class.medium]="task.priority === 'Medium'"
-            [class.low]="task.priority === 'Low'">
-
-            {{ task.priority }} Priority
-
-          </span>
-
-
-          <div class="task-footer">
-
-            <div class="assignee">
-              {{ task.assignee.charAt(0) }}
             </div>
 
-            <span class="task-type">
-              {{ task.type }}
+
+            <h3>
+              {{ task.title }}
+            </h3>
+
+
+            <span
+              class="priority"
+              [class.high]="task.priority === 'HIGH'"
+              [class.medium]="task.priority === 'MEDIUM'"
+              [class.low]="task.priority === 'LOW'">
+
+              {{ task.priority }} Priority
+
             </span>
 
+
+            <div class="task-footer">
+
+              <div class="assignee">
+                {{ task.assignee?.charAt(0) || 'U' }}
+              </div>
+
+              <span class="task-type">
+                {{ task.type || 'U' }}
+              </span>
+
+            </div>
+
           </div>
+        </ng-container>
 
-        </div>
-
+        <ng-template #emptyDone>
+          <div class="empty-state">No completed tasks</div>
+        </ng-template>
 
         <button class="add-task-btn">
           + Add task
@@ -295,3 +310,72 @@
   </div>
 
 </main>
+
+<div class="modal-backdrop" *ngIf="isCreateTaskModalOpen" (click)="closeCreateTaskModal()">
+  <div class="task-modal" role="dialog" aria-modal="true" aria-labelledby="create-task-title" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <div>
+        <p class="eyebrow">Project</p>
+        <h2 id="create-task-title">Create Task</h2>
+      </div>
+      <button type="button" class="close-btn" (click)="closeCreateTaskModal()" aria-label="Close create task form">×</button>
+    </div>
+
+    <form class="task-form" (ngSubmit)="submitNewTask()">
+      <div class="form-grid">
+        <label class="field">
+          <span>Task title</span>
+          <input type="text" name="title" [(ngModel)]="newTask.title" placeholder="Enter task title" required />
+        </label>
+
+        <label class="field">
+          <span>Assignee</span>
+          <input type="text" name="assignee" [(ngModel)]="newTask.assignee" placeholder="Team member name" required />
+        </label>
+
+        <label class="field">
+          <span>User Story ID</span>
+          <input type="number" min="1" max="10" name="userStoryId" [(ngModel)]="newTask.userStoryId" placeholder="01" />
+        </label>
+
+        <label class="field">
+          <span>Status</span>
+          <select name="status" [(ngModel)]="newTask.status">
+            <option value="TODO">TODO</option>
+            <option value="IN_PROGRESS">IN PROGRESS</option>
+            <option value="DONE">DONE</option>
+          </select>
+        </label>
+
+        <label class="field">
+          <span>Priority</span>
+          <select name="priority" [(ngModel)]="newTask.priority">
+            <option value="HIGH">High</option>
+            <option value="MEDIUM">Medium</option>
+            <option value="LOW">Low</option>
+          </select>
+        </label>
+
+        <label class="field">
+          <span>Estimated Time</span>
+          <input type="number" min="1" max="10" name="estimatedTime" [(ngModel)]="newTask.estimatedTime" placeholder="00" />
+        </label>
+
+        <label class="field">
+          <span>Actual Time</span>
+          <input type="number" min="0" max="10" name="actualTime" [(ngModel)]="newTask.actualTime" placeholder="00" />
+        </label>
+
+        <label class="field full-width">
+          <span>Description</span>
+          <textarea name="description" rows="5" [(ngModel)]="newTask.description" placeholder="Write a short description of the task..."></textarea>
+        </label>
+      </div>
+
+      <div class="modal-actions">
+        <button type="button" class="secondary-btn" (click)="closeCreateTaskModal()">Cancel</button>
+        <button type="submit" class="primary-btn" [disabled]="!newTask.title.trim() || !newTask.assignee.trim()">Create Task</button>
+      </div>
+    </form>
+  </div>
+</div>

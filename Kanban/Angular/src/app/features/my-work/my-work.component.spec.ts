@@ -20,4 +20,12 @@ describe('MyWorkComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('should open the create task modal', () => {
+    component.isCreateTaskModalOpen = false;
+
+    component.openCreateTaskModal();
+
+    expect(component.isCreateTaskModalOpen).toBeTrue();
+  });
 });

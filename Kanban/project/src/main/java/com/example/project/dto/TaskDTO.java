@@ -24,6 +24,10 @@ public class TaskDTO {
 
     private Long assignedToId;
 
+    private Long assigneeId;
+
+    private Long projectId;
+
     private Long createdById;
 
     private LocalDateTime createdAt;
@@ -108,11 +112,27 @@ public class TaskDTO {
     }
 
     public Long getAssignedToId() {
-        return assignedToId;
+        return assignedToId != null ? assignedToId : assigneeId;
     }
 
     public void setAssignedToId(Long assignedToId) {
         this.assignedToId = assignedToId;
+    }
+
+    public Long getAssigneeId() {
+        return assigneeId != null ? assigneeId : assignedToId;
+    }
+
+    public void setAssigneeId(Long assigneeId) {
+        this.assigneeId = assigneeId;
+    }
+
+    public Long getProjectId() {
+        return projectId != null ? projectId : userStoryId;
+    }
+
+    public void setProjectId(Long projectId) {
+        this.projectId = projectId;
     }
 
     public Long getCreatedById() {

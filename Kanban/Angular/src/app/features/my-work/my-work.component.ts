@@ -1,130 +1,149 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-
-interface Task {
-  id: number;
-  title: string;
-  status: 'TODO' | 'IN_PROGRESS' | 'DONE';
-  priority: 'High' | 'Medium' | 'Low';
-  assignee: string;
-  type: string;
-}
+import { TaskService, MyWorkTask, MyWorkPageResponse } from '../../services/task.service';
 
 @Component({
   selector: 'app-my-work',
   standalone: true,
   imports: [CommonModule, FormsModule],
+  providers: [TaskService],
   templateUrl: './my-work.component.html',
   styleUrl: './my-work.component.css'
 })
-export class MyWorkComponent {
+export class MyWorkComponent implements OnInit {
 
   searchText = '';
+  isCreateTaskModalOpen = false;
+  tasks: MyWorkTask[] = [];
 
-  tasks: Task[] = [
+  newTask: {
+    title: string;
+    status: 'TODO' | 'IN_PROGRESS' | 'DONE';
+    priority: 'HIGH' | 'MEDIUM' | 'LOW';
+    assignee: string;
+    userStoryId: string;
+    estimatedTime: string;
+    actualTime: string;
+    description: string;
+  } = {
+    title: '',
+    status: 'TODO',
+    priority: 'MEDIUM',
+    assignee: '',
+    userStoryId: '1',
+    estimatedTime: '01',
+    actualTime: '00',
+    description: ''
+  };
 
-    {
-      id: 102,
-      title: 'Login',
-      status: 'TODO',
-      priority: 'High',
-      assignee: 'Neha',
-      type: 'N'
-    },
+  constructor(private taskService: TaskService) {}
 
-    {
-      id: 103,
-      title: 'User Registration',
-      status: 'TODO',
-      priority: 'Medium',
-      assignee: 'Neha',
-      type: 'N'
-    },
+  ngOnInit(): void {
+    this.loadTasks();
+  }
 
-    {
-      id: 104,
-      title: 'Dashboard UI',
-      status: 'TODO',
-      priority: 'Low',
-      assignee: 'Krishna',
-      type: 'K'
-    },
+  getTasks(status: 'TODO' | 'IN_PROGRESS' | 'DONE'): MyWorkTask[] {
+    return this.tasks.filter(task => task.status === status && task.title.toLowerCase().includes(this.searchText.toLowerCase()));
+  }
 
-    {
-      id: 108,
-      title: 'Implement JWT',
-      status: 'IN_PROGRESS',
-      priority: 'Medium',
-      assignee: 'Krishna',
-      type: 'K'
-    },
+  loadTasks(): void {
+    this.taskService.getMyWorkTasks(this.searchText).subscribe({
+      next: (response: MyWorkPageResponse) => {
+        const data = response?.data ?? response;
+        this.tasks = this.normalizeTasks(data);
+      },
+      error: () => {
+        this.tasks = [];
+      }
+    });
+  }
 
-    {
-      id: 109,
-      title: 'API Integration',
-      status: 'IN_PROGRESS',
-      priority: 'High',
-      assignee: 'Neha',
-      type: 'N'
-    },
+  openCreateTaskModal(): void {
+    this.isCreateTaskModalOpen = true;
+  }
 
-    {
-      id: 110,
-      title: 'Security Filter',
-      status: 'IN_PROGRESS',
-      priority: 'High',
-      assignee: 'Prathamesh',
-      type: 'P'
-    },
+  closeCreateTaskModal(): void {
+    this.isCreateTaskModalOpen = false;
+    this.resetNewTaskForm();
+  }
 
-    {
-      id: 95,
-      title: 'Register Page',
-      status: 'DONE',
-      priority: 'Low',
-      assignee: 'Prathamesh',
-      type: 'P'
-    },
+  submitNewTask(): void {
+    const title = this.newTask.title.trim();
+    const assignee = this.newTask.assignee.trim();
 
-    {
-      id: 96,
-      title: 'Database Setup',
-      status: 'DONE',
-      priority: 'Medium',
-      assignee: 'Krishna',
-      type: 'K'
-    },
-
-    {
-      id: 97,
-      title: 'Project Setup',
-      status: 'DONE',
-      priority: 'Low',
-      assignee: 'Neha',
-      type: 'N'
+    if (!title || !assignee) {
+      return;
     }
 
-  ];
+    const payload = {
+      title,
+      description: this.newTask.description.trim(),
+      priority: this.newTask.priority.toUpperCase(),
+      status: this.newTask.status,
+      assigneeId: 1,
+      assignedToId: 1,
+      userStoryId: Number(this.newTask.userStoryId || 1),
+      projectId: Number(this.newTask.userStoryId || 1),
+      dueDate: new Date().toISOString().slice(0, 10)
+    };
 
-  getTasks(status: Task['status']): Task[] {
-
-    return this.tasks.filter(task => {
-
-      const matchesStatus =
-        task.status === status;
-
-      const matchesSearch =
-        task.title
-          .toLowerCase()
-          .includes(
-            this.searchText.toLowerCase()
-          );
-
-      return matchesStatus && matchesSearch;
-
+    this.taskService.createTask(payload).subscribe({
+      next: () => {
+        this.closeCreateTaskModal();
+        this.loadTasks();
+      },
+      error: () => {
+        this.closeCreateTaskModal();
+      }
     });
+  }
 
+  private normalizeTasks(data: any): MyWorkTask[] {
+    const grouped = [data?.todo ?? [], data?.inProgress ?? [], data?.done ?? []].flat();
+    return grouped.map((task: any) => ({
+      id: task.id,
+      title: task.title ?? 'Untitled task',
+      status: this.normalizeStatus(task.status),
+      priority: this.normalizePriority(task.priority),
+      assignee: task.assignee?.name ?? task.assignee ?? 'Unassigned',
+      type: task.assignee?.initials ?? 'U'
+    }));
+  }
+
+  private normalizeStatus(status: string): 'TODO' | 'IN_PROGRESS' | 'DONE' {
+    const normalized = (status ?? '').toUpperCase();
+    if (normalized === 'IN_PROGRESS') {
+      return 'IN_PROGRESS';
+    }
+    if (normalized === 'DONE') {
+      return 'DONE';
+    }
+    return 'TODO';
+  }
+
+  private normalizePriority(priority: string): 'HIGH' | 'MEDIUM' | 'LOW' {
+    const normalized = (priority ?? '').toUpperCase();
+    if (normalized === 'HIGH') {
+      return 'HIGH';
+    }
+    if (normalized === 'LOW') {
+      return 'LOW';
+    }
+    return 'MEDIUM';
+  }
+
+  private resetNewTaskForm(): void {
+    this.newTask = {
+      title: '',
+      status: 'TODO',
+      priority: 'MEDIUM',
+      assignee: '',
+      userStoryId: '1',
+      estimatedTime: '01',
+      actualTime: '00',
+      description: ''
+    };
   }
 
 }
